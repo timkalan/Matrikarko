@@ -35,7 +35,7 @@ class Matrika:
         return Matrika(transponiranka)
 
     def __add__(self, other):
-        #seveda zajeto tudi odštevanje
+        # seveda zajeto tudi odštevanje
         if self.vrstice != other.vrstice or self.stolpci != other.stolpci:
             raise Exception("Velikosti se ne ujemajo!")
         else:
@@ -88,10 +88,13 @@ class Matrika:
             return sled
 
     def determinanta(self):
+        # s pomočjo rekurzije izračunamo determinante matrik (skoraj) poljubnih velikosti
         if self.vrstice != self.stolpci:
             raise Exception("Determinanto imajo le kvadratne matrike!")
         elif self.vrstice == 2:
             return self.matrika[0][0] * self.matrika[1][1] - self.matrika[0][1] * self.matrika[1][0]
+        else:
+
 
 
     def inverz(self):
