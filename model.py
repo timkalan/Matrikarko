@@ -9,15 +9,33 @@ class Matrika:
         self.stolpci = len(matrika[0])
     
     def __str__(self):
-        return "Matrika velikosti {0} krat {1}".format(self.vrstice, self.stolpci)
+        return "Matrika velikosti {0} krat {1}: {2}".format(self.vrstice, self.stolpci, self.matrika)
     
     def __repr__(self):
         return "Matrika({0})".format(self.matrika)
 
+    #def __getitem__(self, indeks):
+    #    return self.vrstice[indeks]
+
+    #def __setitem__(self, indeks, item):
+    #    self.vrstice[indeks] = item
+
     def __eq__(self, other):
         return self.matrika == other.matrika
 
+    def transponiraj(self):
+        m = self.vrstice
+        n = self.stolpci
+        transponiranka = []
+        for i in range(n):
+            vrstica = []
+            for j in range(m):
+                vrstica.append(self.matrika[j][i])
+            transponiranka.append(vrstica)
+        return Matrika(transponiranka)
+
     def __add__(self, other):
+        #seveda zajeto tudi odštevanje
         if self.vrstice != other.vrstice or self.stolpci != other.stolpci:
             raise Exception("Velikosti se ne ujemajo!")
         else:
@@ -34,6 +52,9 @@ class Matrika:
     def __mul__(self, other):
         # množimo lahko s številko ali (ustrezno) matriko
         # tu zajeto tudi množenje matrike in vektorja
+
+        #POPRAVI!
+
         if isinstance(other, int) or isinstance(other, float):
             zmnozek = []
             m = self.vrstice
@@ -47,10 +68,16 @@ class Matrika:
 
         elif isinstance(other, Matrika):
             if self.stolpci == other.vrstice:
-                pass
-
-
-
+                trans = other.transponiraj
+                zmnozek = []
+                m = self.vrstice
+                n = self.stolpci
+                for i in range(m):
+                    vrstica = []
+                    for j in range(n):
+                        vrstica.append(sum([item[0] * item[1] for item in zip(self.matrika[i], trans.matrika[j])]))
+                    zmnozek.append(vrstica)
+                return Matrika(zmnozek)
         else:
             raise Exception("Si prepričan da so velikosti/tipi pravilni?")
 
@@ -60,22 +87,19 @@ class Matrika:
             sled += self.matrika[i][i]
             return sled
 
-    def transponiraj(self):
-        m = self.vrstice
-        n = self.stolpci
-        transponiranka = []
-        for i in range(n):
-            vrstica = []
-            for j in range(m):
-                vrstica.append(self.matrika[j][i])
-            transponiranka.append(vrstica)
-        return Matrika(transponiranka)
+    def determinanta(self):
+        if self.vrstice != self.stolpci:
+            raise Exception("Determinanto imajo le kvadratne matrike!")
+        elif self.vrstice == 2:
+            return self.matrika[0][0] * self.matrika[1][1] - self.matrika[0][1] * self.matrika[1][0]
+
 
     def inverz(self):
         pass
 
-    def determinanta(self):
-        pass
+a = Matrika([[0, 1], [1, 0]])
+b = Matrika([[1, 0], [0, 1], [0, 0]])
+print(b.determinanta)
     
 
 
