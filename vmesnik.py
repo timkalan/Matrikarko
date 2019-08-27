@@ -1,5 +1,6 @@
 # import bottle
-import model
+#import model
+from model import Matrika
 
 """ hahahahaha kaj sploh hahahahahah """
 
@@ -41,10 +42,27 @@ def meni():
     else:
         assert False
 
-# zdej morš še definirat vse te funkcije
-
 def sestej():
-    pass
+    # mogoče je še mal tko eh
+    matrika1 = input("Navedi prvo matriko, ki jo želiš sešteti:")
+    matrika1 = matrika1.split(",")
+    prva_matrika = []
+    for vrstica in matrika1:
+        vrstica = vrstica.split()
+        vrstica = [int(x) for x in vrstica]
+        prva_matrika.append(vrstica)
+    prva_matrika = Matrika(prva_matrika)
+
+    matrika2 = input("Navedi drugo matriko, ki jo želiš sešteti:")
+    matrika2 = matrika2.split(",")
+    druga_matrika = []
+    for vrstica in matrika2:
+        vrstica = vrstica.split()
+        vrstica = [int(x) for x in vrstica]
+        druga_matrika.append(vrstica)
+    druga_matrika = Matrika(druga_matrika)
+    print(prva_matrika + druga_matrika)
+    
 
 def odstej():
     pass
@@ -72,6 +90,10 @@ def izpis_rezultata(matrika):
     return izpis
 
 
-def pozeni_vmesnik():
+def main():
     # to je glavni program, heh
-    pass
+    pozdrav()
+    while True:
+        meni()
+
+main()

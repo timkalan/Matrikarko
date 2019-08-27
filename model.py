@@ -1,7 +1,7 @@
 class Matrika:
 
     """ Preprost razred za lažjo obdelavo
-    in razumevanje problemov z matrikami """
+    in razumevanje problemov z matrikami. """
 
     def __init__(self, matrika):
         self.matrika = matrika
@@ -164,9 +164,7 @@ class Matrika:
                 return I2
 
 
-a = Matrika([[1, 1, 2], [1, 1, 3], [0, 1, 5]])
-b = Matrika([[1, 4], [2, 1]])
-print(a.inverz())
+
     
 
 
