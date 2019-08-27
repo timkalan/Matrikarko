@@ -164,7 +164,6 @@ class Matrika:
                 return I2
 
 
-
     
 
 
