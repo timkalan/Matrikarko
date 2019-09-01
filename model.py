@@ -163,8 +163,16 @@ class Matrika:
             if Matrika(I) == A * I2:
                 return I2
 
+    def normalna(self):
+        # samo za realne matrike
+        return self * self.transponiraj() == self.transponiraj() * self
 
-    
+    def simetricna(self):
+        return self == self.transponiraj()
+
+    def ortogonalna(self):
+        return self.transponiraj() == self.inverz()
+
 
 
 

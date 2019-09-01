@@ -21,6 +21,9 @@ def meni():
         "transponiraj",
         "determiniraj (izračunaj determinanto)",
         "obrni (poišči inverz, če obstaja)",
+        "preveri normalnost", 
+        "preveri simetričnost", 
+        "preveri ortogonalnost"
     ])
 
     if izbira == 0:
@@ -37,6 +40,12 @@ def meni():
         determinanta()
     elif izbira == 6:
         inverz()
+    elif izbira == 7:
+        normalna()
+    elif izbira == 8:
+        simetricna()
+    elif izbira == 9:
+        ortogonalna()
     else:
         assert False
 
@@ -145,6 +154,48 @@ def inverz():
         matrika1.append(vrstica)
     matrika1 = Matrika(matrika1)
     print(matrika1.inverz())
+
+def normalna():
+    matrika = input("Navedi matriko, katere normalnost želiš preveriti: ")
+    matrika = matrika.split(",")
+    matrika1 = []
+    for vrstica in matrika:
+        vrstica = vrstica.split()
+        vrstica = [int(x) for x in vrstica]
+        matrika1.append(vrstica)
+    matrika1 = Matrika(matrika1)
+    if matrika1.normalna():
+        print("Matrika JE normalna!")
+    else:
+        print("Matrika NI normalna!")
+
+def simetricna():
+    matrika = input("Navedi matriko, katere simetričnost želiš preveriti: ")
+    matrika = matrika.split(",")
+    matrika1 = []
+    for vrstica in matrika:
+        vrstica = vrstica.split()
+        vrstica = [int(x) for x in vrstica]
+        matrika1.append(vrstica)
+    matrika1 = Matrika(matrika1)
+    if matrika1.simetricna():
+        print("Matrika JE simetrična!")
+    else:
+        print("Matrika NI simetrična!")
+
+def ortogonalna():
+    matrika = input("Navedi matriko, katere normalnost želiš preveriti: ")
+    matrika = matrika.split(",")
+    matrika1 = []
+    for vrstica in matrika:
+        vrstica = vrstica.split()
+        vrstica = [int(x) for x in vrstica]
+        matrika1.append(vrstica)
+    matrika1 = Matrika(matrika1)
+    if matrika1.ortogonalna():
+        print("Matrika JE ortogonalna!")
+    else:
+        print("Matrika NI ortogonalna!")
 
 def main():
     pozdrav()
