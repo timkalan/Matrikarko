@@ -1,9 +1,10 @@
 from model import Matrika
 
 def pozdrav():
-    print("\nAhoj, tu sem, da te rešim dolgočasnih delov linearne algebre!")
-    print("POZOR! Matrike piši tako, da elemente iste vrstice ločiš s presledkom, vrstice pa z vejicami.")
-    print("Identiteta recimo izgleda takole: 1 0 0, 0 1 0, 0 0 1 \n")
+    print("""
+Ahoj, tu sem, da te rešim dolgočasnih delov linearne algebre!
+POZOR! Matrike piši tako, da elemente iste vrstice ločiš s presledkom, vrstice pa z vejicami.
+Identiteta recimo izgleda takole: 1 0 0, 0 1 0, 0 0 1 \n""")
 
 def izberi(mozni_odgovori):
     for indeks, odgovor in enumerate(mozni_odgovori):
@@ -21,9 +22,7 @@ def meni():
         "transponiraj",
         "determiniraj (izračunaj determinanto)",
         "obrni (poišči inverz, če obstaja)",
-        "preveri normalnost", 
-        "preveri simetričnost", 
-        "preveri ortogonalnost"
+        "ugotovi določene lastnosti matrik"
     ])
 
     if izbira == 0:
@@ -41,10 +40,23 @@ def meni():
     elif izbira == 6:
         inverz()
     elif izbira == 7:
+        meni_lastnosti()
+    else:
+        assert False
+
+def meni_lastnosti():
+    print("\nUgotovim lahko naslednje: ")
+    izbira = izberi([
+        "preveri normalnost", 
+        "preveri simetričnost", 
+        "preveri ortogonalnost"
+    ])
+
+    if izbira == 0:
         normalna()
-    elif izbira == 8:
+    elif izbira == 1:
         simetricna()
-    elif izbira == 9:
+    elif izbira == 2:
         ortogonalna()
     else:
         assert False
