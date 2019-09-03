@@ -69,7 +69,7 @@ def prepoznaj_matriko(matrika):
     matrika1 = []
     for vrstica in matrika:
         vrstica = vrstica.split()
-        vrstica = [int(x) for x in vrstica]
+        vrstica = [float(x) for x in vrstica]
         matrika1.append(vrstica)
     return Matrika(matrika1)
 
@@ -142,7 +142,13 @@ def ortogonalna():
         print("Matrika NI ortogonalna!")
 
 def cramer():
-    pass
+    matrika = input("Navedi matriko, ki predstavlja levo stran sistema: ")
+    matrika = prepoznaj_matriko(matrika)
+
+    vektor = input("Navedi vektor, ki predstavlja desno stran sistema: ")
+    vektor = vektor.split(" ")
+    vektor = [float(x) for x in vektor]
+    print(matrika.cramer(vektor))
 
 def main():
     pozdrav()
