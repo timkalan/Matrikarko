@@ -1,7 +1,9 @@
+import random
+
 class Matrika:
 
-    """ Preprost razred za lažjo obdelavo
-    in razumevanje problemov z matrikami. """
+    """ Preprost razred za lažjo obdelavo in razumevanje
+        problemov z matrikami. """
 
     def __init__(self, matrika):
         self.matrika = matrika
@@ -32,6 +34,8 @@ class Matrika:
         return Matrika(transponiranka)
 
     def __add__(self, other):
+        """ Sešteje matriki po komponentah. """
+
         # seveda zajeto tudi odštevanje
         if self.vrstice != other.vrstice or self.stolpci != other.stolpci:
             raise Exception("Velikosti se ne ujemajo!")
@@ -47,8 +51,8 @@ class Matrika:
             return Matrika(vsota)
 
     def __mul__(self, other):
-        # množimo lahko s številko ali (ustrezno) matriko
-        # tu zajeto tudi množenje matrike in vektorja
+        """ Omogoča množenje matrik z drugimi matrikami, skalarji in vektorji. """
+
         if isinstance(other, int) or isinstance(other, float):
             zmnozek = []
             m = self.vrstice
@@ -76,7 +80,7 @@ class Matrika:
             raise Exception("Si prepričan da so velikosti/tipi pravilni?")
 
     def __rmul__(self, other):
-        # dodano za bolj elegantno množenje s števili
+        # dodano za bolj elegantno množenje s števili (komutativnost)
         if isinstance(other, int) or isinstance(other, float):
             zmnozek = []
             m = self.vrstice
@@ -89,14 +93,19 @@ class Matrika:
             return Matrika(zmnozek)
 
     def sled(self):
-        sled = 0
-        for i in range(self.vrstice):
-            sled += self.matrika[i][i]
+        """ Izračuna vsoto diagonalnih elementov kvadratne matrike. """
+        
+        if not self.kvadratna():
+            raise Exception("Sled računamo le kvadratnim matrikam!")
+        else:
+            sled = 0
+            for i in range(self.vrstice):
+                sled += self.matrika[i][i]
             return sled
 
     def determinanta(self):
         # s pomočjo rekurzije izračunamo determinante matrik (skoraj) poljubnih velikosti
-        if self.vrstice != self.stolpci:
+        if not self.kvadratna():
             raise Exception("Determinanto imajo le kvadratne matrike!")
         elif self.vrstice == 1:
             return self.matrika[0][0]
@@ -104,8 +113,6 @@ class Matrika:
             return self.matrika[0][0] * self.matrika[1][1] - self.matrika[0][1] * self.matrika[1][0]
 
         else:
-            # dela, ampak a veš zakaj?
-
             A = self.matrika
             total = 0
             indeksi = list(range(len(A)))
@@ -125,8 +132,8 @@ class Matrika:
  
             return total
 
-    def inverz(self):
-        if self.vrstice != self.stolpci:
+    def inverz2(self):
+        if not self.kvadratna():
             raise Exception("Ne-kvadratna matrika!")
         elif self.determinanta() == 0:
             raise Exception("Singularna matrika!")
@@ -135,14 +142,8 @@ class Matrika:
             n = self.vrstice
             A = self.matrika
             A2 = A
-
-            # naredimo identiteto velikosti n * n
-            I = []
-            for i in range(n):
-                vrstica = []
-                for j in range(n):
-                    vrstica.append(1 if i == j else 0)
-                I.append(vrstica)
+            I = Matrika.naredi_identiteto(n)
+            I = I.matrika
             I2 = I
 
             indeksi = list(range(n))
@@ -163,7 +164,30 @@ class Matrika:
             if Matrika(I) == A * I2:
                 return I2
 
+    def minor(self, i, j):
+        m = self.matrika
+        return Matrika([vrstica[:j] + vrstica[j+1:] for vrstica in (m[:i]+m[i+1:])])
+
+    def inverz(self):
+        if not self.kvadratna():
+            raise Exception("Ne-kvadratna matrika!")
+        elif self.determinanta() == 0:
+            raise Exception("Singularna matrika!")
+        else:
+            m = self.vrstice
+            pridruzenka = []
+            for i in range(m):
+                vrstica = []
+                for j in range(m):
+                    vrstica.append((-1) ** (i + j) * self.minor(i, j).determinanta())
+                pridruzenka.append(vrstica)
+            pridruzenka = Matrika(pridruzenka)
+            skalar = 1 / self.determinanta()
+            return skalar * pridruzenka.transponiraj()
+
     def normalna(self):
+        """ Preveri, če matrika komutira s svojo transponiranko. """
+
         # samo za realne matrike
         return self * self.transponiraj() == self.transponiraj() * self
 
@@ -173,6 +197,30 @@ class Matrika:
     def ortogonalna(self):
         return self.transponiraj() == self.inverz()
 
+    def kvadratna(self):
+        # za lažjo berljivost delov kode
+        return self.vrstice == self.stolpci
 
+    @classmethod
+    def naredi_identiteto(cls, m):
+        # za lažjo berljivost funkcije inverz
+        vrstice = [[0]*m for x in range(m)]
+        i = 0
+        for vrstica in vrstice:
+            vrstica[i] = 1
+            i += 1
+        return cls(vrstice)
 
+    @classmethod
+    def naredi_nakljucno(cls, m, n, od=0, do=9):
+        """ Naredi naključno matriko velikosti m * n, z vrednostmi
+            med min in max. """
 
+        # uporabna metoda za testiranje programa
+        matrika = []
+        for _ in range(m):
+            vrstica = []
+            for _ in range(n):
+                vrstica.append(random.randrange(od, do))
+            matrika.append(vrstica)
+        return cls(matrika)
