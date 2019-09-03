@@ -22,7 +22,8 @@ def meni():
         "transponiraj",
         "determiniraj (izračunaj determinanto)",
         "obrni (poišči inverz, če obstaja)",
-        "ugotovi določene lastnosti matrik"
+        "ugotovi določene lastnosti matrik",
+        "reši sistem n enačb z n neznankami"
     ])
 
     if izbira == 0:
@@ -41,6 +42,8 @@ def meni():
         inverz()
     elif izbira == 7:
         meni_lastnosti()
+    elif izbira == 8:
+        cramer()
     else:
         assert False
 
@@ -61,121 +64,62 @@ def meni_lastnosti():
     else:
         assert False
 
-def sestej():
-    # mogoče je še mal tko eh
-    matrika1 = input("Navedi prvo matriko, ki jo želiš sešteti: ")
-    matrika1 = matrika1.split(",")
-    prva_matrika = []
-    for vrstica in matrika1:
-        vrstica = vrstica.split()
-        vrstica = [int(x) for x in vrstica]
-        prva_matrika.append(vrstica)
-    prva_matrika = Matrika(prva_matrika)
-
-    matrika2 = input("Navedi drugo matriko, ki jo želiš sešteti: ")
-    matrika2 = matrika2.split(",")
-    druga_matrika = []
-    for vrstica in matrika2:
-        vrstica = vrstica.split()
-        vrstica = [int(x) for x in vrstica]
-        druga_matrika.append(vrstica)
-    druga_matrika = Matrika(druga_matrika)
-    print(prva_matrika + druga_matrika)
-    
-
-def odstej():
-    matrika1 = input("Navedi matriko, od katere želiš odštevati: ")
-    matrika1 = matrika1.split(",")
-    prva_matrika = []
-    for vrstica in matrika1:
-        vrstica = vrstica.split()
-        vrstica = [int(x) for x in vrstica]
-        prva_matrika.append(vrstica)
-    prva_matrika = Matrika(prva_matrika)
-
-    matrika2 = input("Navedi matriko, ki jo želiš odšteti: ")
-    matrika2 = matrika2.split(",")
-    druga_matrika = []
-    for vrstica in matrika2:
-        vrstica = vrstica.split()
-        vrstica = [int(x) for x in vrstica]
-        druga_matrika.append(vrstica)
-    druga_matrika = Matrika(druga_matrika) * -1
-    print(prva_matrika + druga_matrika)
-
-def pomnozi():
-    matrika1 = input("Navedi prvo matriko, ki jo želiš množiti: ")
-    matrika1 = matrika1.split(",")
-    prva_matrika = []
-    for vrstica in matrika1:
-        vrstica = vrstica.split()
-        vrstica = [int(x) for x in vrstica]
-        prva_matrika.append(vrstica)
-    prva_matrika = Matrika(prva_matrika)
-
-    matrika2 = input("Navedi drugo matriko, ki jo želiš množiti: ")
-    matrika2 = matrika2.split(",")
-    druga_matrika = []
-    for vrstica in matrika2:
-        vrstica = vrstica.split()
-        vrstica = [int(x) for x in vrstica]
-        druga_matrika.append(vrstica)
-    druga_matrika = Matrika(druga_matrika)
-    print(prva_matrika * druga_matrika)
-
-def sled():
-    matrika = input("Navedi matriko, katere sled želiš izračunati: ")
+def prepoznaj_matriko(matrika):
     matrika = matrika.split(",")
     matrika1 = []
     for vrstica in matrika:
         vrstica = vrstica.split()
         vrstica = [int(x) for x in vrstica]
         matrika1.append(vrstica)
-    matrika1 = Matrika(matrika1)
+    return Matrika(matrika1)
+
+def sestej():
+    matrika1 = input("Navedi prvo matriko, ki jo želiš sešteti: ")
+    matrika1 = prepoznaj_matriko(matrika1)
+    
+    matrika2 = input("Navedi drugo matriko, ki jo želiš sešteti: ")
+    matrika2 = prepoznaj_matriko(matrika2)
+    print(matrika1 + matrika2)
+    
+def odstej():
+    matrika1 = input("Navedi matriko, od katere želiš odštevati: ")
+    matrika1 = prepoznaj_matriko(matrika1)
+
+    matrika2 = input("Navedi matriko, ki jo želiš odšteti: ")
+    matrika2 = prepoznaj_matriko(matrika2) * -1
+    print(matrika1 + matrika2)
+
+def pomnozi():
+    matrika1 = input("Navedi prvo matriko, ki jo želiš množiti: ")
+    matrika1 = prepoznaj_matriko(matrika1)
+
+    matrika2 = input("Navedi drugo matriko, ki jo želiš množiti: ")
+    matrika2 = prepoznaj_matriko(matrika2)
+    print(matrika1 + matrika2)
+
+def sled():
+    matrika = input("Navedi matriko, katere sled želiš izračunati: ")
+    matrika1 = prepoznaj_matriko(matrika)
     print(matrika1.sled())
 
 def transponiraj():
     matrika = input("Navedi matriko, ki jo želiš transponirarti: ")
-    matrika = matrika.split(",")
-    matrika1 = []
-    for vrstica in matrika:
-        vrstica = vrstica.split()
-        vrstica = [int(x) for x in vrstica]
-        matrika1.append(vrstica)
-    matrika1 = Matrika(matrika1)
+    matrika1 = prepoznaj_matriko(matrika)
     print(matrika1.transponiraj())
 
 def determinanta():
     matrika = input("Navedi matriko, katere determinanto želiš izračunati: ")
-    matrika = matrika.split(",")
-    matrika1 = []
-    for vrstica in matrika:
-        vrstica = vrstica.split()
-        vrstica = [int(x) for x in vrstica]
-        matrika1.append(vrstica)
-    matrika1 = Matrika(matrika1)
+    matrika1 = prepoznaj_matriko(matrika)
     print(matrika1.determinanta())
 
 def inverz():
     matrika = input("Navedi matriko, ki jo želiš obrniti: ")
-    matrika = matrika.split(",")
-    matrika1 = []
-    for vrstica in matrika:
-        vrstica = vrstica.split()
-        vrstica = [int(x) for x in vrstica]
-        matrika1.append(vrstica)
-    matrika1 = Matrika(matrika1)
+    matrika1 = prepoznaj_matriko(matrika)
     print(matrika1.inverz())
 
 def normalna():
     matrika = input("Navedi matriko, katere normalnost želiš preveriti: ")
-    matrika = matrika.split(",")
-    matrika1 = []
-    for vrstica in matrika:
-        vrstica = vrstica.split()
-        vrstica = [int(x) for x in vrstica]
-        matrika1.append(vrstica)
-    matrika1 = Matrika(matrika1)
+    matrika1 = prepoznaj_matriko(matrika)
     if matrika1.normalna():
         print("Matrika JE normalna!")
     else:
@@ -183,13 +127,7 @@ def normalna():
 
 def simetricna():
     matrika = input("Navedi matriko, katere simetričnost želiš preveriti: ")
-    matrika = matrika.split(",")
-    matrika1 = []
-    for vrstica in matrika:
-        vrstica = vrstica.split()
-        vrstica = [int(x) for x in vrstica]
-        matrika1.append(vrstica)
-    matrika1 = Matrika(matrika1)
+    matrika1 = prepoznaj_matriko(matrika)
     if matrika1.simetricna():
         print("Matrika JE simetrična!")
     else:
@@ -197,17 +135,14 @@ def simetricna():
 
 def ortogonalna():
     matrika = input("Navedi matriko, katere normalnost želiš preveriti: ")
-    matrika = matrika.split(",")
-    matrika1 = []
-    for vrstica in matrika:
-        vrstica = vrstica.split()
-        vrstica = [int(x) for x in vrstica]
-        matrika1.append(vrstica)
-    matrika1 = Matrika(matrika1)
+    matrika1 = prepoznaj_matriko(matrika)
     if matrika1.ortogonalna():
         print("Matrika JE ortogonalna!")
     else:
         print("Matrika NI ortogonalna!")
+
+def cramer():
+    pass
 
 def main():
     pozdrav()
