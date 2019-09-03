@@ -22,16 +22,11 @@ class Matrika:
     def __eq__(self, other):
         return self.matrika == other.matrika
 
-    def transponiraj(self):
-        m = self.vrstice
-        n = self.stolpci
-        transponiranka = []
-        for i in range(n):
-            vrstica = []
-            for j in range(m):
-                vrstica.append(self.matrika[j][i])
-            transponiranka.append(vrstica)
-        return Matrika(transponiranka)
+    def __getitem__(self, indeks):
+        return self.matrika[indeks]
+
+    def __setitem__(self, indeks, item):
+        self.matrika[indeks] = item
 
     def __add__(self, other):
         """ Sešteje matriki po komponentah. """
@@ -103,8 +98,20 @@ class Matrika:
                 sled += self.matrika[i][i]
             return sled
 
+    def transponiraj(self):
+        m = self.vrstice
+        n = self.stolpci
+        transponiranka = []
+        for i in range(n):
+            vrstica = []
+            for j in range(m):
+                vrstica.append(self[j][i])
+            transponiranka.append(vrstica)
+        return Matrika(transponiranka)
+
     def determinanta(self):
-        # s pomočjo rekurzije izračunamo determinante matrik (skoraj) poljubnih velikosti
+        """ S pomočjo rekurzije izračuna determinante matrik (skoraj) poljubnih velikosti. """
+
         if not self.kvadratna():
             raise Exception("Determinanto imajo le kvadratne matrike!")
         elif self.vrstice == 1:
@@ -132,7 +139,7 @@ class Matrika:
  
             return total
 
-    def inverz2(self):
+    def inverz_hitri(self):
         if not self.kvadratna():
             raise Exception("Ne-kvadratna matrika!")
         elif self.determinanta() == 0:
@@ -165,10 +172,13 @@ class Matrika:
                 return I2
 
     def minor(self, i, j):
-        m = self.matrika
+        m = self
         return Matrika([vrstica[:j] + vrstica[j+1:] for vrstica in (m[:i]+m[i+1:])])
 
     def inverz(self):
+        """ Z uporabo pridružene matrike kofaktorjev in determinante izračuna inverz matrike,
+            če ta obstaja. """
+
         if not self.kvadratna():
             raise Exception("Ne-kvadratna matrika!")
         elif self.determinanta() == 0:
@@ -185,6 +195,27 @@ class Matrika:
             skalar = 1 / self.determinanta()
             return skalar * pridruzenka.transponiraj()
 
+    def cramer(self, b):
+        """ S pomočjo Cramerjevega pravila reši sistem Ax = b, ki ima
+            n enačb z n neznankami, oziroma ugotovi, da nima enolične rešitve.
+            Če uspe, vrne vektor, ki predstavlja rešitev (torej x). """
+
+        if self.determinanta() == 0:
+            return "Sistem nima enolične rešitve!"
+        elif len(b) != self.vrstice:
+            raise Exception("Dolžina vektorja b se ne ujema!")
+        elif not self.kvadratna():
+            raise Exception("Rešujem samo kvadratne sisteme!")
+        else:
+            n = self.vrstice
+            x = []
+            for i in range(n):
+                A = self.transponiraj()
+                A = A[:i] + [b] + A[i+1:]
+                A = Matrika(A)
+                x.append(A.determinanta() / self.determinanta())
+            return x
+                
     def normalna(self):
         """ Preveri, če matrika komutira s svojo transponiranko. """
 
@@ -224,3 +255,6 @@ class Matrika:
                 vrstica.append(random.randrange(od, do))
             matrika.append(vrstica)
         return cls(matrika)
+
+
+A = Matrika([[3,6,7], [7,1,9], [6,0,7]])
