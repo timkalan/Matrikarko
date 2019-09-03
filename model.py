@@ -87,6 +87,17 @@ class Matrika:
                 zmnozek.append(vrstica)
             return Matrika(zmnozek)
 
+    def uporabi(self, vektor):
+        m = self.vrstice
+        n = self.stolpci
+        produkt = []
+        for i in range(m):
+            vsota = 0
+            for j in range(n):
+                vsota += self[i][j] * vektor[j]
+            produkt.append(vsota)
+        return produkt
+
     def sled(self):
         """ Izračuna vsoto diagonalnih elementov kvadratne matrike. """
         
@@ -255,6 +266,4 @@ class Matrika:
                 vrstica.append(random.randrange(od, do))
             matrika.append(vrstica)
         return cls(matrika)
-
-
-A = Matrika([[3,6,7], [7,1,9], [6,0,7]])
+        
