@@ -1,4 +1,4 @@
-from model import Matrika
+from model import Matrika, prepoznaj_matriko2
 
 def pozdrav():
     print("""
@@ -63,15 +63,6 @@ def meni_lastnosti():
         ortogonalna()
     else:
         assert False
-
-def prepoznaj_matriko(matrika):
-    matrika = matrika.split(",")
-    matrika1 = []
-    for vrstica in matrika:
-        vrstica = vrstica.split()
-        vrstica = [float(x) for x in vrstica]
-        matrika1.append(vrstica)
-    return Matrika(matrika1)
 
 def sestej():
     matrika1 = input("Navedi prvo matriko, ki jo želiš sešteti: ")
@@ -156,3 +147,4 @@ def main():
         meni()
 
 main()
+

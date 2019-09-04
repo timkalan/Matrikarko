@@ -267,3 +267,13 @@ class Matrika:
             matrika.append(vrstica)
         return cls(matrika)
         
+
+
+def prepoznaj_matriko(matrika):
+    matrika = matrika.split(",")
+    matrika1 = []
+    for vrstica in matrika:
+        vrstica = vrstica.split()
+        vrstica = [float(x) for x in vrstica]
+        matrika1.append(vrstica)
+    return Matrika(matrika1)
