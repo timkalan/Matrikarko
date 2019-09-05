@@ -1,10 +1,7 @@
 % rebase("osnova")
 
-% if preveri == True:
-    <h1>Matrika JE {{lastnost}}!</h1>
-% else:
-    <h1>Matrika NI {{lastnost}}!</h1>
-
+% 
+    <h1>{{rezultat}}</h1>
 % end
 
 <div align="right">
