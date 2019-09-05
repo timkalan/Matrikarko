@@ -31,7 +31,6 @@ class Matrika:
     def __add__(self, other):
         """ Sešteje matriki po komponentah. """
 
-        # seveda zajeto tudi odštevanje
         if self.vrstice != other.vrstice or self.stolpci != other.stolpci:
             raise Exception("Velikosti se ne ujemajo!")
         else:
@@ -44,6 +43,9 @@ class Matrika:
                     vrstica.append(self.matrika[i][j] + other.matrika[i][j])
                 vsota.append(vrstica)
             return Matrika(vsota)
+
+    def __sub__(self, other):
+        return self + (-1) * other
 
     def __mul__(self, other):
         """ Omogoča množenje matrik z drugimi matrikami, skalarji in vektorji. """
@@ -106,7 +108,7 @@ class Matrika:
         else:
             sled = 0
             for i in range(self.vrstice):
-                sled += self.matrika[i][i]
+                sled += self[i][i]
             return sled
 
     def transponiraj(self):
@@ -126,14 +128,14 @@ class Matrika:
         if not self.kvadratna():
             raise Exception("Determinanto imajo le kvadratne matrike!")
         elif self.vrstice == 1:
-            return self.matrika[0][0]
+            return self[0][0]
         elif self.vrstice == 2:
-            return self.matrika[0][0] * self.matrika[1][1] - self.matrika[0][1] * self.matrika[1][0]
+            return self[0][0] * self[1][1] - self[0][1] * self[1][0]
 
         else:
-            A = self.matrika
+            A = self
             total = 0
-            indeksi = list(range(len(A)))
+            indeksi = list(range(A.vrstice))
 
             for stolpci in indeksi:
                 A2 = A 
@@ -270,10 +272,14 @@ class Matrika:
 
 
 def prepoznaj_matriko(matrika):
-    matrika = matrika.split(",")
+    """ V spletnem vmesniku pretvori uporabnikov vnos v 
+        razumljivo matriko. """
+
+    matrika = matrika.split("\n")
     matrika1 = []
     for vrstica in matrika:
         vrstica = vrstica.split()
         vrstica = [float(x) for x in vrstica]
         matrika1.append(vrstica)
     return Matrika(matrika1)
+
