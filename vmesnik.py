@@ -1,4 +1,4 @@
-from model import Matrika, prepoznaj_matriko2
+from model import Matrika, prepoznaj_matriko
 
 def pozdrav():
     print("""
@@ -77,8 +77,8 @@ def odstej():
     matrika1 = prepoznaj_matriko(matrika1)
 
     matrika2 = input("Navedi matriko, ki jo želiš odšteti: ")
-    matrika2 = prepoznaj_matriko(matrika2) * -1
-    print(matrika1 + matrika2)
+    matrika2 = prepoznaj_matriko(matrika2)
+    print(matrika1 - matrika2)
 
 def pomnozi():
     matrika1 = input("Navedi prvo matriko, ki jo želiš množiti: ")
