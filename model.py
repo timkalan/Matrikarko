@@ -90,6 +90,8 @@ class Matrika:
             return Matrika(zmnozek)
 
     def uporabi(self, vektor):
+        """ Dani vektor pomnoži z matriko, odpravi ta primanjkljaj navadne funkcije
+            za množenje matrik. """
         m = self.vrstice
         n = self.stolpci
         produkt = []
@@ -282,4 +284,12 @@ def prepoznaj_matriko(matrika):
         vrstica = [float(x) for x in vrstica]
         matrika1.append(vrstica)
     return Matrika(matrika1)
+
+def prepoznaj_vektor(vektor):
+    """ Malce preprostejša verzija zgornje funkcije, vnos spremeni
+        v vektor (seznam). """
+
+    vektor = vektor.split(" ")
+    vektor = [float(i) for i in vektor]
+    return vektor
 
