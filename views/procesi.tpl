@@ -1,7 +1,9 @@
 % rebase("osnova")
 
-% 
-    <h1>{{rezultat}}</h1>
+% for vrstica in rezultat:
+    <div align="center">
+    <h1>{{vrstica}}</h1>
+    </div>
 % end
 
 <div align="right">

@@ -11,6 +11,12 @@
             margin: 0;
             font-family: 'Montserrat', sans-serif;
             background-color: #FFFFFB}
+
+            .dom {
+              padding: 5px;
+              margin-top: 25px;
+              }
+
         h1 {40px;padding-top: 25px;}
         footer {font-family: 'Montserrat', sans-serif;position: absolute;bottom: 0;width: 100%;height: 2.5rem;}
     
@@ -23,7 +29,7 @@
   <h1>Matrikulator!</h1>
   </div>
 
-<div class="btn-group-vertical" role="group" aria-label="Button group with nested dropdown">
+<div class="btn-group" role="group" aria-label="Button group with nested dropdown">
   <a href="/sestevanje" class="btn btn-secondary">seštej</a>       
   <a href="/odstevanje" class="btn btn-secondary">odštej</a> 
   <a href="/mnozenje" class="btn btn-secondary">pomnoži</a> 
@@ -31,9 +37,10 @@
   <a href="/transponiranje" class="btn btn-secondary">transponiraj</a> 
   <a href="/determiniranje" class="btn btn-secondary">determiniraj</a> 
   <a href="/obracanje" class="btn btn-secondary">obrni</a> 
-  <button type="button" class="btn btn-secondary">reši sistem</button> 
+  <a href="/vektorji" class="btn btn-secondary">uporabi na vektorju</a> 
+  <a href="/sistemi" class="btn btn-secondary">reši sistem</a> 
   
-  <div class="btn-group-vertical dropright" role="group">
+  <div class="btn-group-vertical " role="group">
     <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
       lastnosti matrik
     </button>
