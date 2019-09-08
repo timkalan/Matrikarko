@@ -1,10 +1,22 @@
-from model import Matrika, prepoznaj_matriko
+from model import Matrika
 
 def pozdrav():
     print("""
 Ahoj, tu sem, da te rešim dolgočasnih delov linearne algebre!
 POZOR! Matrike piši tako, da elemente iste vrstice ločiš s presledkom, vrstice pa z vejicami.
 Identiteta recimo izgleda takole: 1 0 0, 0 1 0, 0 0 1 \n""")
+
+def prepoznaj_matriko(matrika):
+    """ V spletnem vmesniku pretvori uporabnikov vnos v 
+        razumljivo matriko. """
+
+    matrika = matrika.split(", ")
+    matrika1 = []
+    for vrstica in matrika:
+        vrstica = vrstica.split()
+        vrstica = [float(x) for x in vrstica]
+        matrika1.append(vrstica)
+    return Matrika(matrika1)
 
 def izberi(mozni_odgovori):
     for indeks, odgovor in enumerate(mozni_odgovori):

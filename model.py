@@ -241,10 +241,16 @@ class Matrika:
             return self * self.transponiraj() == self.transponiraj() * self
 
     def simetricna(self):
-        return self == self.transponiraj()
+        if not self.kvadratna():
+            raise Exception("Simetričnost preverjamo le kvadratnim matrikam!")
+        else:
+            return self == self.transponiraj()
 
     def ortogonalna(self):
-        return self.transponiraj() == self.inverz()
+        if not self.kvadratna():
+            raise Exception("Ortogonalnost preverjamo le kvadratnim matrikam!")
+        else:
+            return self.transponiraj() == self.inverz()
 
     def kvadratna(self):
         # za lažjo berljivost delov kode

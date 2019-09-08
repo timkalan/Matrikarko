@@ -4,7 +4,7 @@
     <div align="center">
     <h1>Matrika JE {{lastnost}}!</h1>
 
-    <img src="../../img/kljukica.png" alt="Denarcek">
+    <img src="../../img/kljuka.png" alt="Kljukica">
 
     </div>
 
@@ -12,7 +12,7 @@
     <div align="center">
     <h1>Matrika NI {{lastnost}}!</h1>
 
-     <img src="../../img/krizec.png" alt="Denarcek">
+     <img src="../../img/x.png" width="412" vspace="50" alt="Križec">
 
     </div>
 % end

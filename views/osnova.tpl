@@ -37,10 +37,11 @@
     <body>
 <div class="container">
 
-<div class="mx-auto" style="width: 300px;">
-  <h1><a href="/" style="color: #000000;">Matrikulator!</a></h1>
+<div class="mx-auto" align="center" style="width: 300px;">
+  <h1><a href="/" style="color: #000000;"><b>MATRIKULATOR!</b></a></h1>
   </div>
 
+<div align="center">
 <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
   <a href="/sestevanje" class="btn btn-secondary">seštej</a>       
   <a href="/odstevanje" class="btn btn-secondary">odštej</a> 
@@ -52,7 +53,7 @@
   <a href="/vektorji" class="btn btn-secondary">uporabi na vektorju</a> 
   <a href="/sistemi" class="btn btn-secondary">reši sistem</a> 
   
-  <div class="btn-group-vertical " role="group">
+  <div class="btn-group-vertical" role="group">
     <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
       lastnosti matrik
     </button>
@@ -62,6 +63,7 @@
       <a class="dropdown-item" href="/ortogonalnost">preveri ortogonalnost</a>
     </div>
   </div>
+</div>
 </div>
 
 
