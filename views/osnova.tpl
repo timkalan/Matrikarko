@@ -17,6 +17,18 @@
               margin-top: 25px;
               }
 
+            .form-group {
+              adding: 5px;
+              margin-top: 25px;
+              }
+
+             .center {
+              margin-left:auto; 
+              margin-right:auto;
+              width: 100%;
+              text-align: center;
+              }
+
         h1 {40px;padding-top: 25px;}
         footer {font-family: 'Montserrat', sans-serif;position: absolute;bottom: 0;width: 100%;height: 2.5rem;}
     
@@ -26,7 +38,7 @@
 <div class="container">
 
 <div class="mx-auto" style="width: 300px;">
-  <h1>Matrikulator!</h1>
+  <h1><a href="/" style="color: #000000;">Matrikulator!</a></h1>
   </div>
 
 <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
