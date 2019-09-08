@@ -235,7 +235,10 @@ class Matrika:
         """ Preveri, če matrika komutira s svojo transponiranko. """
 
         # samo za realne matrike
-        return self * self.transponiraj() == self.transponiraj() * self
+        if not self.kvadratna():
+            raise Exception("Normalnost preverjamo le kvadratnim matrikam!")
+        else:
+            return self * self.transponiraj() == self.transponiraj() * self
 
     def simetricna(self):
         return self == self.transponiraj()
@@ -292,4 +295,3 @@ def prepoznaj_vektor(vektor):
     vektor = vektor.split(" ")
     vektor = [float(i) for i in vektor]
     return vektor
-
