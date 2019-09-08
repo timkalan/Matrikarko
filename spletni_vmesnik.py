@@ -56,8 +56,8 @@ def sledenje():
 def sled():
     matrika_besedilo = bottle.request.query["matrika"]
     matrika = prepoznaj_matriko(matrika_besedilo)
-    sled = matrika.sled()
-    return bottle.template("procesi.tpl", rezultat=sled)
+    rezultat = matrika.sled()
+    return bottle.template("procesi.tpl", rezultat=rezultat)
 
 @bottle.get("/transponiranje")
 def transponiranje():
@@ -67,8 +67,8 @@ def transponiranje():
 def transponiranka():
     matrika_besedilo = bottle.request.query["matrika"]
     matrika = prepoznaj_matriko(matrika_besedilo)
-    transponiranka = matrika.transponiraj()
-    return bottle.template("procesi.tpl", rezultat=transponiranka)
+    rezultat = matrika.transponiraj()
+    return bottle.template("procesi.tpl", rezultat=rezultat)
 
 @bottle.get("/determiniranje")
 def determiniranje():
@@ -78,8 +78,8 @@ def determiniranje():
 def determinanta():
     matrika_besedilo = bottle.request.query["matrika"]
     matrika = prepoznaj_matriko(matrika_besedilo)
-    determinanta = matrika.determinanta()
-    return bottle.template("procesi.tpl", rezultat=determinanta)
+    rezultat = matrika.determinanta()
+    return bottle.template("procesi.tpl", rezultat=rezultat)
 
 @bottle.get("/obracanje")
 def obracanje():
@@ -89,8 +89,8 @@ def obracanje():
 def inverz():
     matrika_besedilo = bottle.request.query["matrika"]
     matrika = prepoznaj_matriko(matrika_besedilo)
-    inverz = matrika.inverz()
-    return bottle.template("procesi.tpl", rezultat=inverz)
+    rezultat = matrika.inverz()
+    return bottle.template("procesi.tpl", rezultat=rezultat)
 
 # FUNKCIJE, KI ZAHTEVANJO VEKTORJE
 
@@ -142,7 +142,7 @@ def simetricna():
     matrika_besedilo = bottle.request.query["matrika"]
     matrika = prepoznaj_matriko(matrika_besedilo)
     preveri = matrika.simetricna()
-    return bottle.template("lastnosti.tpl", preveri=preveri, lastnost="simetricna")
+    return bottle.template("lastnosti.tpl", preveri=preveri, lastnost="simetrična")
 
 @bottle.get("/ortogonalnost")
 def ortogonalnost():
@@ -155,8 +155,11 @@ def ortogonalna():
     preveri = matrika.ortogonalna()
     return bottle.template("lastnosti.tpl", preveri=preveri, lastnost="ortogonalna")
 
+# ZA SLIKE
 
+@bottle.get('/img/<ime>')
+def slike(ime):
+   return bottle.static_file(ime, root = 'img')
 
 
 bottle.run(reloader=True, debug=True)
- 
