@@ -1,7 +1,6 @@
 import random
 
 class Matrika:
-
     """ Preprost razred za lažjo obdelavo in razumevanje
         problemov z matrikami. """
 
@@ -32,7 +31,7 @@ class Matrika:
         """ Sešteje matriki po komponentah. """
 
         if self.vrstice != other.vrstice or self.stolpci != other.stolpci:
-            raise Exception("Velikosti se ne ujemajo!")
+            raise Exception("Matriki sta različnih velikosti!")
         else:
             m = self.vrstice
             n = self.stolpci
@@ -48,7 +47,7 @@ class Matrika:
         return self + (-1) * other
 
     def __mul__(self, other):
-        """ Omogoča množenje matrik z drugimi matrikami, skalarji in vektorji. """
+        """ Pomnoži dano matriko z s skalarjem ali pa z drugo matriko. """
 
         if isinstance(other, int) or isinstance(other, float):
             zmnozek = []
@@ -57,13 +56,13 @@ class Matrika:
             for i in range(m):
                 vrstica = []
                 for j in range(n):
-                    vrstica.append(self.matrika[i][j] * other)
+                    vrstica.append(self[i][j] * other)
                 zmnozek.append(vrstica)
             return Matrika(zmnozek)
 
         elif isinstance(other, Matrika):
             if self.stolpci == other.vrstice:
-                trans = other.transponiraj()
+                trans = other.transponiraj() 
                 zmnozek = []
                 m = self.vrstice
                 n = self.stolpci
@@ -77,7 +76,7 @@ class Matrika:
             raise Exception("Si prepričan da so velikosti/tipi pravilni?")
 
     def __rmul__(self, other):
-        # dodano za bolj elegantno množenje s števili (komutativnost)
+        # dodano za bolj elegantno množenje s števili - omogoča komutativnost
         if isinstance(other, int) or isinstance(other, float):
             zmnozek = []
             m = self.vrstice
@@ -85,13 +84,14 @@ class Matrika:
             for i in range(m):
                 vrstica = []
                 for j in range(n):
-                    vrstica.append(self.matrika[i][j] * other)
+                    vrstica.append(self[i][j] * other)
                 zmnozek.append(vrstica)
             return Matrika(zmnozek)
 
     def uporabi(self, vektor):
         """ Dani vektor pomnoži z matriko, odpravi ta primanjkljaj navadne funkcije
             za množenje matrik. """
+
         m = self.vrstice
         n = self.stolpci
         produkt = []
@@ -154,39 +154,10 @@ class Matrika:
  
             return total
 
-    def inverz_hitri(self):
-        if not self.kvadratna():
-            raise Exception("Ne-kvadratna matrika!")
-        elif self.determinanta() == 0:
-            raise Exception("Singularna matrika!")
-
-        else:
-            n = self.vrstice
-            A = self.matrika
-            A2 = A
-            I = Matrika.naredi_identiteto(n)
-            I = I.matrika
-            I2 = I
-
-            indeksi = list(range(n))
-            for diagonala in range(n):
-                diagonalaS = 1.0 / A2[diagonala][diagonala]
-                for j in range(n):
-                    A2[diagonala][j] *= diagonalaS
-                    I2[diagonala][j] *= diagonalaS
-                for i in indeksi[:diagonala] + indeksi[diagonala+1:]:
-                    vrsticaS = A2[i][diagonala]
-                    for j in range(n):
-                        A2[i][j] = A2[i][j] - vrsticaS * A2[diagonala][j]
-                        I2[i][j] = I2[i][j] - vrsticaS * I2[diagonala][j]
-
-            
-            A = Matrika(A)
-            I2 = Matrika(I2)
-            if Matrika(I) == A * I2:
-                return I2
-
     def minor(self, i, j):
+        """ Izračuna (i, j)-ti minor, torej matriko, ki je enaka originalni, le da je brez 
+            i-te vrstice in j-tega stolpca. """
+            
         m = self
         return Matrika([vrstica[:j] + vrstica[j+1:] for vrstica in (m[:i]+m[i+1:])])
 
@@ -269,7 +240,7 @@ class Matrika:
     @classmethod
     def naredi_nakljucno(cls, m, n, od=0, do=9):
         """ Naredi naključno matriko velikosti m * n, z vrednostmi
-            med min in max. """
+            med od in do. """
 
         # uporabna metoda za testiranje programa
         matrika = []
@@ -279,25 +250,3 @@ class Matrika:
                 vrstica.append(random.randrange(od, do))
             matrika.append(vrstica)
         return cls(matrika)
-        
-
-
-def prepoznaj_matriko(matrika):
-    """ V spletnem vmesniku pretvori uporabnikov vnos v 
-        razumljivo matriko. """
-
-    matrika = matrika.split("\n")
-    matrika1 = []
-    for vrstica in matrika:
-        vrstica = vrstica.split()
-        vrstica = [float(x) for x in vrstica]
-        matrika1.append(vrstica)
-    return Matrika(matrika1)
-
-def prepoznaj_vektor(vektor):
-    """ Malce preprostejša verzija zgornje funkcije, vnos spremeni
-        v vektor (seznam). """
-
-    vektor = vektor.split(" ")
-    vektor = [float(i) for i in vektor]
-    return vektor
