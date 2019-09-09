@@ -1,6 +1,6 @@
 % rebase("osnova")
 
-<form action={{ operacija }}>
+<form action={{ operacija }} method="POST">
   <div class="form-group">
     <h3><label for="matrika1">Vpiši prvo matriko:</label></h3>
     <textarea class="form-control" id="matrika1" rows="10" name="matrika1" placeholder="prva matrika"></textarea>

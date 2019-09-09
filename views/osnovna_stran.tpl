@@ -14,7 +14,8 @@ najdeš v zgornjem meniju.
 <p>
 Matrike zaznavam, če jih pišeš kot je najbolj naravno - pravokotne tabele. Elemente posamezne 
 vrstice loči s presledki, vrstice med sabo pa s tem, da greš v novo vrstico. Kjer bo zahtevan vnos 
-vektorja, ga zapiši kot eno vrstico matrike. Primera matrik sta spodaj.
+vektorja, ga zapiši kot eno vrstico matrike. Negativno število nujno zapiši, kot je v primeru 
+(brez presledka med minusom in številko). Primera matrik sta spodaj.
 </p>
 <table class="center">
     <tr>
@@ -61,6 +62,6 @@ vektorja, ga zapiši kot eno vrstico matrike. Primera matrik sta spodaj.
         </td>
     </tr>
 
-<table>
+</table>
 </h4>
 </div>

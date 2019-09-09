@@ -1,5 +1,29 @@
 import bottle
-from model import Matrika, prepoznaj_matriko, prepoznaj_vektor
+from model import Matrika
+
+# SPORAZUMEVANJE Z MODELOM
+
+def prepoznaj_matriko(matrika):
+    """ V spletnem vmesniku pretvori uporabnikov vnos v 
+        modelu razumljivo matriko. """
+
+    matrika = matrika.split("\n")
+    matrika1 = []
+    for vrstica in matrika:
+        vrstica = vrstica.split()
+        vrstica = [float(x) for x in vrstica]
+        matrika1.append(vrstica)
+    return Matrika(matrika1)
+
+def prepoznaj_vektor(vektor):
+    """ Malce preprostejša verzija zgornje funkcije, vnos spremeni
+        v vektor (seznam). """
+
+    vektor = vektor.split(" ")
+    vektor = [float(i) for i in vektor]
+    return vektor
+
+# OSNOVA
 
 @bottle.get("/")
 def osnovna_stran():
@@ -11,10 +35,10 @@ def osnovna_stran():
 def sestevanje():
     return bottle.template("operacije.tpl", operacija="/sestej", operator="+", operiraj="SEŠTEJ")
 
-@bottle.get("/sestej")
+@bottle.post("/sestej")
 def sestej():
-    matrika1_besedilo = bottle.request.query["matrika1"]
-    matrika2_besedilo = bottle.request.query["matrika2"]
+    matrika1_besedilo = bottle.request.forms["matrika1"]
+    matrika2_besedilo = bottle.request.forms["matrika2"]
     matrika1 = prepoznaj_matriko(matrika1_besedilo)
     matrika2 = prepoznaj_matriko(matrika2_besedilo)
     vsota = matrika1 + matrika2
@@ -24,10 +48,10 @@ def sestej():
 def odstevanje():
     return bottle.template("operacije.tpl", operacija="/odstej", operator="-", operiraj="ODŠTEJ")
 
-@bottle.get("/odstej")
+@bottle.post("/odstej")
 def odstej():
-    matrika1_besedilo = bottle.request.query["matrika1"]
-    matrika2_besedilo = bottle.request.query["matrika2"]
+    matrika1_besedilo = bottle.request.forms["matrika1"]
+    matrika2_besedilo = bottle.request.forms["matrika2"]
     matrika1 = prepoznaj_matriko(matrika1_besedilo)
     matrika2 = prepoznaj_matriko(matrika2_besedilo)
     vsota = matrika1 - matrika2
@@ -35,12 +59,12 @@ def odstej():
 
 @bottle.get("/mnozenje")
 def mnozenje():
-    return bottle.template("operacije.tpl", operacija="/sestej", operator="*", operiraj="POMNOŽI")
+    return bottle.template("operacije.tpl", operacija="/zmnozi", operator="*", operiraj="POMNOŽI")
 
-@bottle.get("/zmnozi")
+@bottle.post("/zmnozi")
 def zmnozi():
-    matrika1_besedilo = bottle.request.query["matrika1"]
-    matrika2_besedilo = bottle.request.query["matrika2"]
+    matrika1_besedilo = bottle.request.forms["matrika1"]
+    matrika2_besedilo = bottle.request.forms["matrika2"]
     matrika1 = prepoznaj_matriko(matrika1_besedilo)
     matrika2 = prepoznaj_matriko(matrika2_besedilo)
     zmnozek = matrika1 * matrika2
@@ -52,9 +76,9 @@ def zmnozi():
 def sledenje():
     return bottle.template("matrike.tpl", proces="/sled", racunam="SLED")
 
-@bottle.get("/sled")
+@bottle.post("/sled")
 def sled():
-    matrika_besedilo = bottle.request.query["matrika"]
+    matrika_besedilo = bottle.request.forms["matrika"]
     matrika = prepoznaj_matriko(matrika_besedilo)
     rezultat = matrika.sled()
     return bottle.template("procesi.tpl", rezultat=rezultat)
@@ -63,9 +87,9 @@ def sled():
 def transponiranje():
     return bottle.template("matrike.tpl", proces="/transponiranka", racunam="TRANSPONIRAJ")
 
-@bottle.get("/transponiranka")
+@bottle.post("/transponiranka")
 def transponiranka():
-    matrika_besedilo = bottle.request.query["matrika"]
+    matrika_besedilo = bottle.request.forms["matrika"]
     matrika = prepoznaj_matriko(matrika_besedilo)
     rezultat = matrika.transponiraj()
     return bottle.template("procesi.tpl", rezultat=rezultat)
@@ -74,9 +98,9 @@ def transponiranka():
 def determiniranje():
     return bottle.template("matrike.tpl", proces="/determinanta", racunam="DETERMINANTA")
 
-@bottle.get("/determinanta")
+@bottle.post("/determinanta")
 def determinanta():
-    matrika_besedilo = bottle.request.query["matrika"]
+    matrika_besedilo = bottle.request.forms["matrika"]
     matrika = prepoznaj_matriko(matrika_besedilo)
     rezultat = matrika.determinanta()
     return bottle.template("procesi.tpl", rezultat=rezultat)
@@ -85,40 +109,50 @@ def determinanta():
 def obracanje():
     return bottle.template("matrike.tpl", proces="/inverz", racunam="INVERZ")
 
-@bottle.get("/inverz")
+@bottle.post("/inverz")
 def inverz():
-    matrika_besedilo = bottle.request.query["matrika"]
+    matrika_besedilo = bottle.request.forms["matrika"]
     matrika = prepoznaj_matriko(matrika_besedilo)
     rezultat = matrika.inverz()
     return bottle.template("procesi.tpl", rezultat=rezultat)
 
-# FUNKCIJE, KI ZAHTEVANJO VEKTORJE
+# FUNKCIJE, KI ZAHTEVAJO VEKTORJE
 
 @bottle.get("/vektorji")
-def sistemi():
-    return bottle.template("vektorji.tpl", kater="/uporabi", kaj1="Matrika:", kaj2="Vektor:")
+def vektorji():
+    return bottle.template("vektorji.tpl", 
+                            kater="/uporabi", 
+                            kaj1="Matrika:", 
+                            kaj2="Vektor:", 
+                            delaj="UPORABI", 
+                            opis="Preslikaj vektor z linearno preslikavo, ki jo predstavlja matrika.")
 
-@bottle.get("/uporabi")
-def cramer():
-    matrika_besedilo = bottle.request.query["matrika"]
-    vektor_besedilo = bottle.request.query["vektor"]
+@bottle.post("/uporabi")
+def uporabi():
+    matrika_besedilo = bottle.request.forms["matrika"]
+    vektor_besedilo = bottle.request.forms["vektor"]
     matrika = prepoznaj_matriko(matrika_besedilo)
     vektor = prepoznaj_vektor(vektor_besedilo)
     resitev = matrika.uporabi(vektor)
-    return bottle.template("racuni.tpl", rezultat=resitev)
+    return bottle.template("vektor_rezultati.tpl", rezultat=resitev)
 
 @bottle.get("/sistemi")
 def sistemi():
-    return bottle.template("vektorji.tpl", kater="/cramer", kaj1="Matrika sistema (kvadratna!!):", kaj2="Vektor (desna stran sistema):")
+    return bottle.template("vektorji.tpl", 
+                            kater="/cramer", 
+                            kaj1="Matrika sistema (kvadratna!):",
+                            kaj2="Vektor (b1, b2, b3, ...):", 
+                            delaj="REŠI",
+                            opis="S Cramerjevim pravilom reši sistem Ax = b, kjer je A matrika in b vektor, ki ga vpisuješ. Rezultat je podan kot vektor neznank; x = [x1, x2, x3, ...].")
 
-@bottle.get("/cramer")
+@bottle.post("/cramer")
 def cramer():
-    matrika_besedilo = bottle.request.query["matrika"]
-    vektor_besedilo = bottle.request.query["vektor"]
+    matrika_besedilo = bottle.request.forms["matrika"]
+    vektor_besedilo = bottle.request.forms["vektor"]
     matrika = prepoznaj_matriko(matrika_besedilo)
     vektor = prepoznaj_vektor(vektor_besedilo)
     resitev = matrika.cramer(vektor)
-    return bottle.template("racuni.tpl", rezultat=resitev)
+    return bottle.template("vektor_rezultati.tpl", rezultat=resitev)
 
 # LASTNOSTI MATRIK
 
@@ -126,9 +160,9 @@ def cramer():
 def normalnost():
     return bottle.template("normal.tpl", lastnost="/normalna", poglej="NORMALNOST")
 
-@bottle.get("/normalna")
+@bottle.post("/normalna")
 def normalna():
-    matrika_besedilo = bottle.request.query["matrika"]
+    matrika_besedilo = bottle.request.forms["matrika"]
     matrika = prepoznaj_matriko(matrika_besedilo)
     preveri = matrika.normalna()
     return bottle.template("lastnosti.tpl", preveri=preveri, lastnost="normalna")
@@ -137,9 +171,9 @@ def normalna():
 def simetricnost():
     return bottle.template("normal.tpl", lastnost="/simetricna", poglej="SIMETRIČNOST")
 
-@bottle.get("/simetricna")
+@bottle.post("/simetricna")
 def simetricna():
-    matrika_besedilo = bottle.request.query["matrika"]
+    matrika_besedilo = bottle.request.forms["matrika"]
     matrika = prepoznaj_matriko(matrika_besedilo)
     preveri = matrika.simetricna()
     return bottle.template("lastnosti.tpl", preveri=preveri, lastnost="simetrična")
@@ -148,9 +182,9 @@ def simetricna():
 def ortogonalnost():
     return bottle.template("normal.tpl", lastnost="/ortogonalna", poglej="ORTOGONALNOST")
 
-@bottle.get("/ortogonalna")
+@bottle.post("/ortogonalna")
 def ortogonalna():
-    matrika_besedilo = bottle.request.query["matrika"]
+    matrika_besedilo = bottle.request.forms["matrika"]
     matrika = prepoznaj_matriko(matrika_besedilo)
     preveri = matrika.ortogonalna()
     return bottle.template("lastnosti.tpl", preveri=preveri, lastnost="ortogonalna")

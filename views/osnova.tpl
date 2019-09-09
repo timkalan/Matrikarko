@@ -29,6 +29,7 @@
               text-align: center;
               }
 
+
         h1 {40px;padding-top: 25px;}
         footer {font-family: 'Montserrat', sans-serif;position: absolute;bottom: 0;width: 100%;height: 2.5rem;}
     

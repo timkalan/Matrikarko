@@ -1,17 +1,19 @@
 % rebase("osnova")
 
 % if isinstance(rezultat, float):
-    <div align="center">
+    <div align="center" style="background:#FBFBEF">
+    <p>Rezultat:</p>
     <h1>{{ rezultat }}</h1>
     </div>
 
 % else:
-  <div align="center">
+  <div align="center" style="background:#FBFBEF">
+  <p>Rezultat:</p>
   <h1>
-  <table>
+  <table class="center">
 %   for vrstica in rezultat:
       <tr>
-      <td>{{vrstica}}</td>
+      <td>{{ vrstica }}</td>
       </tr>
 % end
   </table>
